@@ -1,0 +1,31 @@
+package br.senac.tads.dsw.crudclienteprodutobackend.model;
+
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+import lombok.NoArgsConstructor;
+
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Entity
+@Data //gera os getter e setter to string hashcode equals TUDO!!!
+@Table(name = "produtos") // TABELA ONDE O OBJETO VAI SER DIRECIONADO
+@NoArgsConstructor
+public class Produto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @NotBlank
+    private String nome;
+
+    @DecimalMin(value = "0.01")                     // valor minimo para produto
+    private BigDecimal preco;                       //1 - nome , 2 - descricação, 3 - preco, 4 - estoque
+
+
+}

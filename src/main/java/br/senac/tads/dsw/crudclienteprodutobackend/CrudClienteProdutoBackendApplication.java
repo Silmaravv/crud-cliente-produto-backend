@@ -8,6 +8,8 @@ public class CrudClienteProdutoBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CrudClienteProdutoBackendApplication.class, args);
+
+
 	}
 
 }
