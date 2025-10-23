@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.crudclienteprodutobackend.controller;
+package br.senac.tads.dsw.crudclienteprodutobackend.controller.dto;
 
 import java.util.UUID;
 
