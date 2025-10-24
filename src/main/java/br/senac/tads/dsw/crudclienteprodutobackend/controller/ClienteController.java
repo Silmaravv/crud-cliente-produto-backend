@@ -63,6 +63,19 @@ public class ClienteController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Cliente> findById(@PathVariable String id) {
+        UUID idCliente = UUID.fromString(id);
+
+        Optional<Cliente> clienteEncontrado = service.findById(idCliente);
+
+        if(clienteEncontrado.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(clienteEncontrado.get());
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         UUID idCliente = UUID.fromString(id);
