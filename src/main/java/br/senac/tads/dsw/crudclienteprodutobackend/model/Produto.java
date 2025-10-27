@@ -20,12 +20,8 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @NotBlank
     private String nome;
-
-    @DecimalMin(value = "0.01")                     // valor minimo para produto
-    private BigDecimal preco;                       //1 - nome , 2 - descricação, 3 - preco, 4 - estoque
+    private BigDecimal preco;     //1 - nome , 2 - descricação, 3 - preco, 4 - estoque
 
 
 }
