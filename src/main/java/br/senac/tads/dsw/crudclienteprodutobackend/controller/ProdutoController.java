@@ -2,20 +2,25 @@ package br.senac.tads.dsw.crudclienteprodutobackend.controller;
 
 import br.senac.tads.dsw.crudclienteprodutobackend.controller.dto.ProdutoDTO;
 import br.senac.tads.dsw.crudclienteprodutobackend.controller.mappers.ProdutoMapper;
+import br.senac.tads.dsw.crudclienteprodutobackend.model.Cliente;
 import br.senac.tads.dsw.crudclienteprodutobackend.model.Produto;
 import br.senac.tads.dsw.crudclienteprodutobackend.services.ProdutoService;
+
 import jakarta.validation.Valid;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("produtos")
+@RequiredArgsConstructor
 public class ProdutoController {
 
     @NonNull
@@ -25,16 +30,21 @@ public class ProdutoController {
     ProdutoMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ProdutoDTO produtoDTO){
-          Produto produto = mapper.toEntity(produtoDTO);
-          service.save(produto);
+    public ResponseEntity<Void> save(@RequestBody ProdutoDTO produtoDTO) {
+        Produto produto = mapper.toEntity(produtoDTO);
+        service.save(produto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(produto.getId())
                 .toUri();
-        return  ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).build();
 
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Produto>> findall() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PutMapping("{id}")
@@ -44,7 +54,7 @@ public class ProdutoController {
 
         Optional<Produto> produtoOptional = service.findById(idProduto);
 
-        if(produtoOptional.isEmpty()){
+        if (produtoOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Produto produto = mapper.toEntity(produtoDTO);
@@ -53,20 +63,31 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
+
+@GetMapping("{id}")
+public ResponseEntity<Produto> findById(@PathVariable String id){
+        UUID idProduto= UUID.fromString(id);
+        Optional<Produto> produtoEncontrado = service.findById(idProduto);
+        if(produtoEncontrado.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(produtoEncontrado.get());
+}
+
+
+
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id){
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         UUID idProduto = UUID.fromString(id);
         Optional<Produto> produto = service.findById(idProduto);
 
-        if (produto.isEmpty()){
+        if (produto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         service.delete(produto.get());
 
         return ResponseEntity.noContent().build();
     }
-
-
 
 
 }

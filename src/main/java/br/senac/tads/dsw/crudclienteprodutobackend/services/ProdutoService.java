@@ -4,11 +4,15 @@ package br.senac.tads.dsw.crudclienteprodutobackend.services;
 import br.senac.tads.dsw.crudclienteprodutobackend.model.Produto;
 import br.senac.tads.dsw.crudclienteprodutobackend.repository.ProdutoRepository;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Service
 public class ProdutoService {
 
     @NonNull
