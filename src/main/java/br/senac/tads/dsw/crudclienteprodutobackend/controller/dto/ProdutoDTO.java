@@ -1,27 +1,23 @@
 package br.senac.tads.dsw.crudclienteprodutobackend.controller.dto;
 
-import ch.qos.logback.core.boolex.EvaluationException;
-import jakarta.validation.constraints.*;
-import lombok.Value;
-import org.hibernate.validator.constraints.UUID;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record ProdutoDTO(
-
-
-        UUID ID,
+        UUID id,
         @NotBlank(message = "Campo obrigatório!")
         String nome,
-
-        @NotBlank(message = "Campo obrigatório!")
-        @Size(min = 6, max = 320, message = "Campo fora do tamanho padrão!")
+        @Size(max = 320, message = "Campo fora do tamanho padrão!")
         String descricao,
-        @DecimalMin(value = "0.01",
-                message = "O preco minimo deve ser no minimo 0,50R$")
+        @DecimalMin(value = "0.5",
+                message = "O preco deve ser no minimo R$ 0,50")
         BigDecimal preco,
-
         @Min(value = 1, message = "A quantidade dever ser no minimo 1")
-        int quantidade
+        Integer quantidade
 ) {
 }

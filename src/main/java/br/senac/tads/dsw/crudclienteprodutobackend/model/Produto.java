@@ -2,14 +2,11 @@ package br.senac.tads.dsw.crudclienteprodutobackend.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 
-
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,7 +18,9 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String nome;
+    private String descricao;
     private BigDecimal preco;     //1 - nome , 2 - descricação, 3 - preco, 4 - estoque
+    private Integer quantidade;
 
-
+    private LocalDateTime dataAtualizacao = LocalDateTime.now();
 }

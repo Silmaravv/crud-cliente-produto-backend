@@ -2,10 +2,8 @@ package br.senac.tads.dsw.crudclienteprodutobackend.controller;
 
 import br.senac.tads.dsw.crudclienteprodutobackend.controller.dto.ProdutoDTO;
 import br.senac.tads.dsw.crudclienteprodutobackend.controller.mappers.ProdutoMapper;
-import br.senac.tads.dsw.crudclienteprodutobackend.model.Cliente;
 import br.senac.tads.dsw.crudclienteprodutobackend.model.Produto;
 import br.senac.tads.dsw.crudclienteprodutobackend.services.ProdutoService;
-
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +28,7 @@ public class ProdutoController {
     ProdutoMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ProdutoDTO produtoDTO) {
+    public ResponseEntity<Void> save(@RequestBody @Valid ProdutoDTO produtoDTO) {
         Produto produto = mapper.toEntity(produtoDTO);
         service.save(produto);
         URI location = ServletUriComponentsBuilder
@@ -43,7 +41,7 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> findall() {
+    public ResponseEntity<List<Produto>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
@@ -60,20 +58,21 @@ public class ProdutoController {
         Produto produto = mapper.toEntity(produtoDTO);
         produto.setId(idProduto);
 
+        service.update(produto);
+
         return ResponseEntity.noContent().build();
     }
 
 
-@GetMapping("{id}")
-public ResponseEntity<Produto> findById(@PathVariable String id){
-        UUID idProduto= UUID.fromString(id);
+    @GetMapping("{id}")
+    public ResponseEntity<Produto> findById(@PathVariable String id) {
+        UUID idProduto = UUID.fromString(id);
         Optional<Produto> produtoEncontrado = service.findById(idProduto);
-        if(produtoEncontrado.isEmpty()){
+        if (produtoEncontrado.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(produtoEncontrado.get());
-}
-
+    }
 
 
     @DeleteMapping("{id}")
